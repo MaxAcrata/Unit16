@@ -1,4 +1,5 @@
 package ru.netologia.qamid;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,10 +17,7 @@ public class Game {
     }
 
     // Метод round проводит соревнование между двумя игроками по их именам.
-    // Возвращает:
-    // - 0 в случае ничьи
-    // - 1 если первый игрок выиграл
-    // - 2 если второй игрок выиграл
+    // Возвращает: 0 -> ничья, 1 -> первый игрок выиграл, 2 -> второй игрок выиграл
     // Выбрасывает исключение NotRegisteredException, если хотя бы один из игроков не зарегистрирован.
     public int round(String playerName1, String playerName2) throws NotRegisteredException {
         Player player1 = findPlayerByName(playerName1); // Находим первого игрока по имени
@@ -29,7 +27,6 @@ public class Game {
         if (player1 == null || player2 == null) {
             throw new NotRegisteredException("One or both players are not registered.");
         }
-
         // Сравниваем силу игроков и определяем победителя
         if (player1.getStrength() > player2.getStrength()) {
             return 1; // Первый игрок выиграл
@@ -43,11 +40,16 @@ public class Game {
     // Вспомогательный метод для поиска игрока по имени.
     // Возвращает объект Player, если игрок найден, или null, если не найден.
     private Player findPlayerByName(String name) {
+
         for (Player player : registeredPlayers) { // Проходим по списку зарегистрированных игроков
             if (player.getName().equals(name)) { // Сравниваем имена
                 return player; // Возвращаем игрока, если имя совпадает
             }
         }
         return null; // Если игрок не найден, возвращаем null
+    }
+
+    public List<Player> getRegisteredPlayers() {
+        return new ArrayList<>(registeredPlayers); // Возвращаем копию для безопасности
     }
 }
